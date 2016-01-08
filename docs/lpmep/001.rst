@@ -1,0 +1,15 @@
+Template Engine
+===============
+
+``lpm`` should have a template engine so that we can specify folder and file structures.  What I would like to do is create an index in ``/templates/`` as
+a YAML file.  With the template expressed as a YAML file, we should be able to specify things like directories to make, files to touch (or even generate) and
+other scripts to run when the project is first built.
+
+What I want is a setup-and-go process similar to the one ``vagrant`` uses; where a single file is provided and one command can just make it happen.
+
+Current Status
+--------------
+
+*  Working on unit tests, but currently, it is being problematic to create a test that can assert that `config.find_config_file` is capable of correctly
+   finding and returning the right file.  So far, attempts to load things have either failed to the default, or loaded what appears to be an empty or
+   un-parsable file.
