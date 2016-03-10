@@ -37,17 +37,32 @@ def make_template(inpath, outpath, config_file):
                     template_tar.add(os.path.join(root,_file), arcname=_file)
             
 def init_project(name, template, output, config_file):
+    """ Collects the different sources of input and sends the Instruction to lpm
+
+    
+    """
 
     archive_file = "{}.tar".format(
             os.path.join(config_file.get('General', 'template_path'), template))
-    project_directory = os.path.expanduser(
-        os.path.join(config_file.get('General', 'project_root_path'),name))
+    project_directory = os.path.expanduser(os.path.join(output ,name))
     if not os.path.isdir(project_directory):
         try:
             os.mkdir(project_directory)
         except Exception as e:
             raise IOError("Could not create {}: {}".format(
                 project_directory, e.message))
+
+    # extract template config
+    # merge with passed config into a single Instruction()
+    # send instruction to submodules
+
+    """ i.e.
+
+    Instruction.commands = ['extract tarball',
+                            'initialize git repository']
+
+    py_lpm.execute(Instruction)
+    """
 
     if False: # config_file.getboolean('git', 'init_bare'):
 

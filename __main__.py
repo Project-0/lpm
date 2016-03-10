@@ -17,6 +17,8 @@ from py_lpm.functions import make_template as make_template_func
 from py_lpm.functions import init_project as init_project_func
 
 def make_args(args, config_file):
+    """ Creates an LPM.Instruction() """
+    
     kwargs = {'config_file': config_file}
     for arg in args._get_kwargs():
         if arg[0] == 'func':
@@ -62,6 +64,8 @@ def main():
     # define the 'init' command
     init_project = subparsers.add_parser('init', help='Create a new local project')
     init_project.set_defaults(func=init_project_func)
+    # what I really want here is a partial function with a URI target and kwargs TBD
+    
     init_project.add_argument('name', metavar="<project name>", type=str,
                               help="The name of the new project")
     init_project.add_argument('-t', '--template', type=str, help='The name of the template to use')
