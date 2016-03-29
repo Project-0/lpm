@@ -7,10 +7,17 @@ def init_empty_git_repository(at_path):
 
     Does not have a working directory
     """
-    
-    raise NotImplementedError("Git operations are non-functional")
 
-def clone(clone_url, output_path):
+    return git.Repo.init(at_path, bare=True, mkdir=True)
+
+
+def init_working_git_repository(at_path):
+    """ Creates an empty Git repository `at_path` with a working directory """
+
+    return git.Repo.init(at_path, mkdir=True)
+
+
+def clone_from(clone_url, output_path):
     """ Returns an instance of git.Repo 
 
     >>> cr = clone('file:///srv/git/test.git', '~/Projects/test')
@@ -18,4 +25,64 @@ def clone(clone_url, output_path):
     "~/Projects/test"
     """
     
-    raise NotImplementedError("Git operations are non-functional")
+    return git.Repo.clone_from(clone_url, output_path)
+
+
+def open_repository(at_path):
+    """ Returns a Git Repo instance pointing `at_path` """
+    
+    return git.Repo(at_path)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
