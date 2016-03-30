@@ -8,4 +8,4 @@ lib64
 pip-selfcheck.json
 
 # python artifacts
-.pyc
+*.pyc
