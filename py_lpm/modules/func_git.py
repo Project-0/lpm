@@ -2,6 +2,9 @@
 
 import git
 
+
+# Acquiring git.Repo instances
+
 def init_empty_git_repository(at_path):
     """  Create a new bare repository to serve from 
 
@@ -33,7 +36,7 @@ def open_repository(at_path):
     
     return git.Repo(at_path)
 
-
+# Working with git.Repo instances
 
 
 
