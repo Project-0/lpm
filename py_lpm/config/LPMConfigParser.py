@@ -1,5 +1,7 @@
 import ConfigParser
 
 class LPMConfigParser(ConfigParser.SafeConfigParser):
-    pass
+
+    def find_config_parser(self):
+        pass
 
