@@ -2,6 +2,10 @@
 
 import unittest
 import os
+import re, tarfile
+
+from quarks import map_path, rget
+
 
 class LPMTestCase(unittest.TestCase):
     """ Extends the standard `unittest.TestCase` to support LPM's fixtures and special assertions 
@@ -16,6 +20,24 @@ class LPMTestCase(unittest.TestCase):
     """
 
     _fixture_root = '/fixtures/'    # always defaults to a path relative to the file being executed
+    _fixtures = {}
+    _filters = []
+    
+    @classmethod
+    def setUpClass(cls):
+
+        def _run_filter(args, filter_set):
+            """ Runs the provided args through the given filter """
+            key, value = args
+            rexp, func = filter_set
+
+            if os.path.exists(value):
+                if re.search(rexp, key):
+                   return key, func(value)
+            return key, value 
+            
+        mapped = map_path("{}/{}".format(os.path.split(__file__)[0], cls._fixture_root))['']
+        cls._fixtures = {key: reduce(_run_filter, cls._filters, (key, value))[1] for key, value in mapped.iteritems()}
 
     @property
     def fixtures(self):
@@ -28,9 +50,9 @@ class LPMTestCase(unittest.TestCase):
         # A generator like the one below could probably provide this with very little effort
         # return {item.name : file(item.path) for item in os.walk(os.path.walk(__FILE__/self._fixture_root)}
 
-        pass
+        return self._fixtures
         
-    def assertDirectoryEquals(self, target_path, expected_result, message):
+    def assertDirectoryEquals(self, target_path, expected_result, message=""):
         """ Adds an assertion to verify that a file path matches the structure of a tar file
 
         It should be noted that at this point, the assertion is considered true if the target path
@@ -46,11 +68,42 @@ class LPMTestCase(unittest.TestCase):
         """
 
         # Assert the parameter types.  Being a unittest, I don't think duck typing is safe
-        # assert that walking the tarball and the target path both return a valid structure
+        self.assertIsInstance(target_path, str)
+        self.assertTrue(os.path.exists(target_path))
+        self.assertIsInstance(expected_result, tarfile.TarFile)
+        
+        target_directory = map_path(target_path)
 
-        pass
+        # assert that walking the tarball and the target path both return a valid structure
+        for item in expected_result:
+            # yeilds a tarfile.TarInfo instance for each member in the archive
+            try:
+                rget(target_directory, item.path.split('/')[1:])
+            except KeyError as e:
+                raise e
 
     def assertDirectoryContains(self, target_path, expected_result, message):
         """ As `assertDirectoryEqual` except that the target_path needs to contain *at least* the structure of the tarball """
 
         pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

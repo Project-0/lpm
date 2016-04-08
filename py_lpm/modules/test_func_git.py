@@ -2,6 +2,8 @@
 
 """ Define UnitTest TestSuite to cover the Git integration """
 
+import re, tarfile
+
 import lpm_unittest
 import func_git
 
@@ -20,13 +22,16 @@ class TestGitModule(lpm_unittest.LPMTestCase):
 
 
     @classmethod
-    def setUpCls(cls):
-        pass
+    def setUpClass(cls):
+        tar_filter = ('.+\.tar$', lambda path: tarfile.open(path))
+        cls._filters.append(tar_filter)
+        
+        super(TestGitModule, cls).setUpClass()
 
 
     @classmethod
-    def tearDownCls(cls):
-        pass
+    def tearDownClass(cls):
+        super(TestGitModule, cls).tearDownClass()
 
     # Private UnitTest utility methods
 
@@ -48,12 +53,12 @@ class TestGitModule(lpm_unittest.LPMTestCase):
         target_new_repo = func_git.init_empty_git_repository(output_path)
 
         # Assert
-        print self.fixtures
-        self.assertDirectoryEquals(target_new_repo, self.fixtures['git_init_bare.tar'])
+        self.assertEqual(target_new_repo.git_dir, output_path)
+        self.assertDirectoryEquals(target_new_repo.git_dir, self.fixtures['git_bare.tar'])
 
 
     def test_clone(self):
         """ Clone a target repository to a specified directory """
 
-        pass
+        raise NotImplementedError("func_git.clone tests have not been written")
     

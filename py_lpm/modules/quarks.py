@@ -30,7 +30,7 @@ def rget(dict_object, path_list):
     except KeyError:
         return dict_object
 
-def map_path(path):
+def map_path(path, filters=[]):
     """ Returns a dictionary representation of a filesystem 
 
     @returns: a dictionary mapping of the filesystem where folders are
@@ -55,7 +55,7 @@ def map_path(path):
     def _internal(arg, path, names):
         path_list = path.split('/')
         target = rget(arg, path_list[:-1])
-        target[path_list[-1]] = {name: None for name in names}
+        target[path_list[-1]] = {name: "{}/{}".format(path, name) for name in names}
         return target
 
     result = {}
