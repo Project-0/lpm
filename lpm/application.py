@@ -63,8 +63,8 @@ class LPMApplication(object):
             """ Define the `mktempl` command """
 
             help_text = 'Create a new LPM template from source'
-            inpath_help = "The fully qualified path to the directory that" \
-                          " will be used as the template's source"
+            inpath_help = ("The fully qualified path to the directory that"
+                           " will be used as the template's source")
 
             make_template = subparsers.add_parser('mktempl', help=help_text)
             make_template.set_defaults(func=make_template_func)
