@@ -116,4 +116,13 @@ def init_project(name, template, output, config_file):
         subprocess.call(['python', bootstrap_path, project_directory])
 
 
+def settings_cmd(export, config_file):
+    """ Defines the operations of the `settings` command
 
+    TODO: write the export behavior to copy the template files to their default directories
+
+    Usage: `python -m lpm settings --export=True`
+    """
+
+    if export:
+        pass    # os.copy('../templates/.lpm.conf', '~/.lpm.conf')

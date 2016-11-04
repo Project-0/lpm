@@ -18,6 +18,7 @@ from lpm.config import find_config_files, DEFAULT_SETTINGS
 from lpm.config.LPMConfigParser import LPMConfigParser
 from lpm.functions import make_template as make_template_func
 from lpm.functions import init_project as init_project_func
+from lpm.functions import settings_cmd as settings_func
 
 
 def make_args(args, config_file):
@@ -80,6 +81,11 @@ def main():
     init_project.add_argument('-t', '--template', type=str, help='The name of the template to use')
     init_project.add_argument('-o', '--output', type=str, help='Project root directory',
                               default=os.path.expanduser(config_file.get('General', 'project_root_path')))
+
+    settings_cmd = subparsers.add_parser('settings', help='list or edit application settings')
+    settings_cmd.set_defaults(func=settings_func)
+
+    settings_cmd.add_argument('-e', '--export', type=bool, default=False, help='exports the settings')
 
     args = parser.parse_args()
     args.func(**make_args(args, config_file))
