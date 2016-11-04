@@ -3,11 +3,7 @@
 import LPMConfigParser
 import os, io
 
-DEFAULT_SETTINGS = """
-[General]
-project_root_path=/opt/projects.lpm/
-template_path=~/.lpm/templates/
-"""
+DEFAULT_SETTINGS = open("{}/{}".format(os.getcwd(), '../templates/.lpm.conf'), 'r+').read()
 
 DEFAULT_SEARCH_PATH =  ["{}/".format(os.getcwd()),
                         "{}/".format(os.path.expanduser("~")),
@@ -20,7 +16,7 @@ def find_config_files(filename='.lpm.conf', search_paths = DEFAULT_SEARCH_PATH):
     for path in search_paths:
         full_file_reference = "{}{}".format(path, filename)
         if os.path.isfile(full_file_reference):
-           files_found.append(full_file_reference)
+            files_found.append(full_file_reference)
 
     return files_found
 
