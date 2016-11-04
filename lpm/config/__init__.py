@@ -6,7 +6,7 @@ import os, io
 DEFAULT_SETTINGS = """
 [General]
 project_root_path=/opt/projects.lpm/
-template_path=/usr/local/lpm/templates/
+template_path=~/.lpm/templates/
 """
 
 DEFAULT_SEARCH_PATH =  ["{}/".format(os.getcwd()),

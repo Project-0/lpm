@@ -1,5 +1,4 @@
 gitpython
 pyaml
 virtualenv
-gitpython
 

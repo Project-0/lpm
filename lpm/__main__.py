@@ -12,11 +12,12 @@ import sys
 import io
 import yaml
 import argparse
+import logging
 
-from py_lpm.config import find_config_files, DEFAULT_SETTINGS
-from py_lpm.config.LPMConfigParser import LPMConfigParser
-from py_lpm.functions import make_template as make_template_func
-from py_lpm.functions import init_project as init_project_func
+from lpm.config import find_config_files, DEFAULT_SETTINGS
+from lpm.config.LPMConfigParser import LPMConfigParser
+from lpm.functions import make_template as make_template_func
+from lpm.functions import init_project as init_project_func
 
 
 def make_args(args, config_file):
@@ -49,7 +50,10 @@ def main():
 
     full_path = "{}index.yaml".format(template_path)
 
-    templates = yaml.load(open(os.path.expanduser(full_path), 'r+'))
+    try:
+        templates = yaml.load(open(os.path.expanduser(full_path), 'r+'))
+    except IOError as e:
+        print "No template index found in {}.  Templates will be unavailable.".format(full_path)
 
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help="Where does this show up?")
